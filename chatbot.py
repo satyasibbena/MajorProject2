@@ -1,8 +1,8 @@
 from Adafruit_IO import Client
 import os
 
-x= os.getenv('Username')
-y= os.getenv('Key')
+x = os.getenv("Username")
+y = os.getenv("Key")
 
 aio = Client(x, y)
 from telegram.ext import Updater, MessageHandler, Filters
