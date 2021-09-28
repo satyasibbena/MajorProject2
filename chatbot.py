@@ -44,4 +44,3 @@ dp = u.dispatcher
 dp.add_handler(MessageHandler(Filters.text,main))
 u.start_polling()
 u.idle()
-
