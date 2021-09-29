@@ -1,46 +1,42 @@
-from Adafruit_IO import Client
-import os
+!pip install adafruit.io
+!pip install python-telegram-bot==13.0
+from Adafruit_IO import Client,Data
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-x = os.getenv("Username")
-y = os.getenv("Key")
+def turnoffthelight(update, context):
+  context.bot.send_message(chat_id=update.effective_chat.id, text="Bulb turned off")
+  send_value(0)
 
-aio = Client(x, y)
-from telegram.ext import Updater, MessageHandler, Filters
+def turnonthelight(update, context):
+  context.bot.send_message(chat_id=update.effective_chat.id, text="Bulb turned on")
+  send_value(1)
 
-def demo1(bot,update):
-  aio.send('Light',1)
-  chat_id = bot.message.chat_id
-  bot.message.reply_text('Light turned on')
-
-def demo2(bot,update):
-  aio.send('Light',0)
-  chat_id = bot.message.chat_id
-  bot.message.reply_text('Light turned off') 
-
-def demo3(bot,update):
-  aio.send('Fan',1)
-  chat_id = bot.message.chat_id
-  bot.message.reply_text('Fan turned on')
-
-def demo4(bot,update):
-  aio.send('Fan',0)
-  chat_id = bot.message.chat_id
-  bot.message.reply_text('Fan turned off')
-
-def main(bot,update):
-  a= bot.message.text
-  if a =="Turn on light":
-    demo1(bot,update)
-  elif a =="Turn off light":
-    demo2(bot,update)
-  elif a =="Turn on fan":
-    demo3(bot,update)
-  elif a =="Turn off fan":
-    demo4(bot,update)
-
-bot_token = '2010152547:AAHxbqmoPad-araEtG6TP6YbF99-11gXzFk'
-u = Updater(bot_token,use_context=True)
-dp = u.dispatcher
-dp.add_handler(MessageHandler(Filters.text,main))
-u.start_polling()
-u.idle()
+def send_value(value):
+  feed = aio.feeds('Bedroom Light')
+  aio.send_data(feed,key,value)
+def input_message(update, context):
+  text=update.message.text
+  if text =="turnonthelight":
+    send_value(1)
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Bulb turned on")
+  elif a =="turnoffthelight":
+    send_value(0)
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Bulb turned off")
+def start(update, context):
+  start_message='''
+/turnoffthelight or 'turn off':To turn off the bulb ,sends value=0 in feed
+/turnonthelight or 'turn on':To turn on the bulb ,sends value=1 in feed
+'''
+  context.bot.send_message(chat_id=update.effective_chat.id, text=start_message)
+ADAFRUIT_IO_USERNAME = "satyasibbena"
+ADAFRUIT_IO_KEY = "aio_WZsn33T5S5F1G4o8Vl7G0AKNwPeb"
+TOKEN = "2038009715:AAHPR1_Fj7kX0LjkSwcqgonDVUaQvCRlf70"
+aio = Client(ADAFRUIT_IO_USERNAME,ADAFRUIT_IO_KEY)
+updater = Updater(TOKEN, use_context=True)
+dispatcher = updater.dispatcher
+dispatcher.add_handler(CommandHandler('turnoffthelight',turnoffthelight))
+dispatcher.add_handler(CommandHandler('turnonthelight',turnonthelight))
+dispatcher.add_handler(CommandHandler('start',start))
+dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command),input_message))
+updater.start_polling()
+updater.idle()
