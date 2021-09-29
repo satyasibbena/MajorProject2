@@ -24,18 +24,14 @@ def send_value(value):
 def input_message(update, context):
   text=update.message.text
   if text =="turnonthelight":
-    send_value(1)
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Bulb turned on")
+    turnonthelight(update, context)
   elif text =="turnoffthelight":
-    send_value(0)
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Bulb turned off")
+    turnoffthelight(update, context)
   elif text =="turnonthefan":
-    send_value(1)
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Fan turned on")
+    turnonthefan(update, context)
   elif text =="turnoffthefan":
-    send_value(0)
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Fan turned off")
-  
+    turnoffthefan(update, context)
+
 def start(update, context):
   start_message='''
 /turnoffthelight or 'turn off':To turn off the bulb ,sends value=0 in feed
