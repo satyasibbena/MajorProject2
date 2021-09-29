@@ -37,10 +37,10 @@ def input_message(update, context):
   text=update.message.text
   if text =="turnonthefan":
     send_value(1)
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Bulb turned on")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Fan turned on")
   elif a =="turnoffthefan":
     send_value(0)
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Bulb turned off")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Fan turned off")
     
 def start(update, context):
   start_message='''
