@@ -1,5 +1,3 @@
-!pip install adafruit.io
-!pip install python-telegram-bot==13.0
 from Adafruit_IO import Client,Data
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
@@ -28,9 +26,9 @@ def start(update, context):
 /turnonthelight or 'turn on':To turn on the bulb ,sends value=1 in feed
 '''
   context.bot.send_message(chat_id=update.effective_chat.id, text=start_message)
-ADAFRUIT_IO_USERNAME = "satyasibbena"
-ADAFRUIT_IO_KEY = "aio_WZsn33T5S5F1G4o8Vl7G0AKNwPeb"
-TOKEN = "2038009715:AAHPR1_Fj7kX0LjkSwcqgonDVUaQvCRlf70"
+ADAFRUIT_IO_USERNAME = os.getenv('ADAFRUIT_IO_USERNAME')
+ADAFRUIT_IO_KEY = os.getenv('ADAFRUIT_IO_KEY')
+TOKEN = os.getenv('TOKEN')
 aio = Client(ADAFRUIT_IO_USERNAME,ADAFRUIT_IO_KEY)
 updater = Updater(TOKEN, use_context=True)
 dispatcher = updater.dispatcher
