@@ -2,6 +2,10 @@ from Adafruit_IO import Client,Data
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
 
+ADAFRUIT_IO_USERNAME = os.getenv('ADAFRUIT_IO_USERNAME')
+ADAFRUIT_IO_KEY = os.getenv('ADAFRUIT_IO_KEY')
+TOKEN = os.getenv('TOKEN')
+
 def turnoffthelight(update, context):
   context.bot.send_message(chat_id=update.effective_chat.id, text="Bulb turned off")
   send_value(0)
@@ -40,9 +44,6 @@ def start(update, context):
 /turnonthefan or 'turn on':To turn on the fan ,sends value=1 in feed
 '''
   context.bot.send_message(chat_id=update.effective_chat.id, text=start_message)
-ADAFRUIT_IO_USERNAME = os.getenv('ADAFRUIT_IO_USERNAME')
-ADAFRUIT_IO_KEY = os.getenv('ADAFRUIT_IO_KEY')
-TOKEN = os.getenv('TOKEN')
 aio = Client(ADAFRUIT_IO_USERNAME,ADAFRUIT_IO_KEY)
 updater = Updater(TOKEN, use_context=True)
 dispatcher = updater.dispatcher
