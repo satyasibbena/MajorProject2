@@ -19,7 +19,7 @@ def turnonthefan(update, context):
   send_value(1)
 
 def send_value(value):
-  feed = aio.feeds('Light')
+  feed = aio.feeds('Light','Fan')
   aio.send_data(feed,key,value)
 def input_message(update, context):
   text=update.message.text
@@ -29,13 +29,7 @@ def input_message(update, context):
   elif text =="turnoffthelight":
     send_value(0)
     context.bot.send_message(chat_id=update.effective_chat.id, text="Bulb turned off")
-  
-def send_value(value):
-  feed = aio.feeds('Fan')
-  aio.send_data(feed,key,value)
-def input_message(update, context):
-  text=update.message.text
-  if text =="turnonthefan":
+  elif text =="turnonthefan":
     send_value(1)
     context.bot.send_message(chat_id=update.effective_chat.id, text="Fan turned on")
   elif text =="turnoffthefan":
